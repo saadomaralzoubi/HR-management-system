@@ -30,6 +30,7 @@ Employee.prototype.salary = function () {
   } else {
     this.salary = parseInt(500 + Math.random() * (1000 - 500));
   }
+  this.salary = this.salary - this.salary * 0.075;
   console.log(this.salary);
   return this.salary;
 };
