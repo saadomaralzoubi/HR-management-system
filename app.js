@@ -1,6 +1,7 @@
 `use strict`;
 
-let allEmployees = [];
+Employee.allEmployees = [];
+parsData = [];
 let EmployeeDiv = document.getElementById("cards");
 let btn = document.getElementById("btn");
 let form = document.getElementById("form");
@@ -11,19 +12,21 @@ function Employee(employeeid, fullname, department, level, imageurl) {
   this.department = department;
   this.level = level;
   this.imageurl = `./assets/${employeeid}.jpg`;
-  allEmployees.push(this);
+  Employee.allEmployees.push(this);
 }
 
 let department = ["Administration", "Marketing", "Development", "Finance"];
 let level = ["Junior", "Mid-Senior", "Senior"];
 
-let GhaziSamer = new Employee(1000, "Ghazi Samer", department[0], level[2]);
-let LanaAli = new Employee(1001, "Lana Ali", department[3], level[2]);
-let TamaraAyoub = new Employee(1002, "Tamara Ayoub", department[1], level[2]);
-let SafiWalid = new Employee(1003, "Safi Walid", department[0], level[1]);
-let OmarZaid = new Employee(1004, "Omar Zaid", department[2], level[2]);
-let RanaSaleh = new Employee(1005, "Rana Saleh", department[2], level[0]);
-let HadiAhmad = new Employee(1006, "Hadi Ahmad", department[3], level[1]);
+if (localStorage.length == 0) {
+  let GhaziSamer = new Employee(1000, "Ghazi Samer", department[0], level[2]);
+  let LanaAli = new Employee(1001, "Lana Ali", department[3], level[2]);
+  let TamaraAyoub = new Employee(1002, "Tamara Ayoub", department[1], level[2]);
+  let SafiWalid = new Employee(1003, "Safi Walid", department[0], level[1]);
+  let OmarZaid = new Employee(1004, "Omar Zaid", department[2], level[2]);
+  let RanaSaleh = new Employee(1005, "Rana Saleh", department[2], level[0]);
+  let HadiAhmad = new Employee(1006, "Hadi Ahmad", department[3], level[1]);
+}
 
 Employee.prototype.salary = function () {
   if (this.level == "Senior") {
@@ -74,7 +77,9 @@ styles +=
 styles += "div#cards div img {border-radius: 100px;}";
 
 window.onload = function () {
+  EmployeeDiv.innerHTML = "";
   addStyle(styles);
+  getData();
 };
 
 Employee.prototype.id = function () {
@@ -82,22 +87,44 @@ Employee.prototype.id = function () {
   //console.log(this.employeeid);
 };
 
-const val = Math.floor(1000 + Math.random() * 9000);
-console.log(val);
-console.log(RanaSaleh);
-RanaSaleh.salary();
-RanaSaleh.id();
+// const val = Math.floor(1000 + Math.random() * 9000);
+// console.log(val);
+// console.log(RanaSaleh);
+// RanaSaleh.salary();
+// RanaSaleh.id();
 
 // for (let i = 0; i < allEmployees.length; i++) {
 //   console.log(allEmployees[i]);
 //   allEmployees[i].salary();
 //   allEmployees[i].render();
 // }
+function renderAll() {
+  for (let i = 0; i < Employee.allEmployees.length; i++) {
+    Employee.allEmployees[i].render();
+  }
+}
 
-for (let i = 0; i < allEmployees.length; i++) {
-  allEmployees[i].id();
-  console.log(allEmployees[i]);
-  allEmployees[i].render();
+function saveTolocal() {
+  let storedData = JSON.stringify(Employee.allEmployees);
+  localStorage.setItem("employees", storedData);
+}
+
+function getData() {
+  let data = localStorage.getItem("employees");
+  let parsData = JSON.parse(data);
+
+  if (parsData != null) {
+    for (let i = 0; i < parsData.length; i++) {
+      new Employee(
+        parsData[i].employeeid,
+        parsData[i].fullname,
+        parsData[i].department,
+        parsData[i].level,
+        parsData[i].imageurl
+      );
+    }
+  }
+  renderAll();
 }
 
 form.addEventListener("submit", formRelease);
@@ -117,6 +144,8 @@ function formRelease(event) {
     level,
     imageurl
   );
+
   newEmployee.id();
   newEmployee.render();
+  saveTolocal();
 }
