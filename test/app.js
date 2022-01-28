@@ -1,36 +1,35 @@
 `use strict`;
 
-Employee.allEmployees = [];
-parsData = [];
+allEmployees = [];
 let EmployeeDiv = document.getElementById("cards");
 let btn = document.getElementById("btn");
 let form = document.getElementById("form");
-
-Employee.prototype.salary = function () {
-  if (this.level == "Senior") {
-    this.salary = parseInt(1500 + Math.random() * (2000 - 1500));
-  } else if (this.level == "Mid-Senior") {
-    this.salary = parseInt(1000 + Math.random() * (1500 - 1000));
-  } else {
-    this.salary = parseInt(500 + Math.random() * (1000 - 500));
-  }
-  this.salary = this.salary - this.salary * 0.075;
-  //console.log(this.salary);
-  return this.salary;
-};
 
 function Employee(employeeid, fullname, department, level, imageurl) {
   this.employeeid = employeeid;
   this.fullname = fullname;
   this.department = department;
   this.level = level;
-  this.imageurl = `./assets/${employeeid}.jpg`;
-  this.employeeSalary = this.salary();
-  Employee.allEmployees.push(this);
+  this.imageurl = imageurl;
+  this.sal = this.salary();
+
+  allEmployees.push(this);
 }
 
 let department = ["Administration", "Marketing", "Development", "Finance"];
 let level = ["Junior", "Mid-Senior", "Senior"];
+
+Employee.prototype.salary = function () {
+  if (this.level == "Senior") {
+    sal = parseInt(1500 + Math.random() * (2000 - 1500));
+  } else if (this.level == "Mid-Senior") {
+    sal = parseInt(1000 + Math.random() * (1500 - 1000));
+  } else {
+    sal = parseInt(500 + Math.random() * (1000 - 500));
+  }
+  this.sal = sal - sal * 0.075;
+  return this.sal;
+};
 
 let GhaziSamer;
 let LanaAli;
@@ -50,35 +49,24 @@ if (localStorage.length == 0) {
   HadiAhmad = new Employee(1006, "Hadi Ahmad", department[3], level[1]);
 }
 
-Employee.prototype.salary = function () {
-  if (this.level == "Senior") {
-    this.salary = parseInt(1500 + Math.random() * (2000 - 1500));
-  } else if (this.level == "Mid-Senior") {
-    this.salary = parseInt(1000 + Math.random() * (1500 - 1000));
-  } else {
-    this.salary = parseInt(500 + Math.random() * (1000 - 500));
-  }
-  this.salary = this.salary - this.salary * 0.075;
-  //console.log(this.salary);
-  return this.salary;
-};
-
 Employee.prototype.render = function () {
   let info = document.createElement("div");
-  info.innerHTML =
-    "<img src=" +
-    this.imageurl +
-    ' width="150px" height="150px"><br><p>Name: ' +
-    this.fullname +
+  let image = document.createElement("img");
+  image.setAttribute("src", this.image);
+  info.appendChild(image).width = "150px";
+  info.appendChild(image).height = "150px";
+
+  let disc = document.createElement("p");
+  disc.textContent = `Name: ' +
+    ${this.fullname} +
     " - ID: " +
-    this.employeeid +
+    ${this.employeeid} +
     "<br>  Department: " +
-    this.department +
+    ${this.department} +
     " - Level: " +
-    this.level +
-    " - Salary: " +
-    this.employeeSalary +
-    "</p>";
+    ${this.level} ${this.salary()}`;
+  info.appendChild(disc);
+
   EmployeeDiv.appendChild(info);
 };
 
@@ -114,7 +102,7 @@ Employee.prototype.id = function () {
 // const val = Math.floor(1000 + Math.random() * 9000);
 // console.log(val);
 // console.log(RanaSaleh);
-// RanaSaleh.salary();
+
 // RanaSaleh.id();
 
 // for (let i = 0; i < allEmployees.length; i++) {
@@ -123,13 +111,13 @@ Employee.prototype.id = function () {
 //   allEmployees[i].render();
 // }
 function renderAll() {
-  for (let i = 0; i < Employee.allEmployees.length; i++) {
-    Employee.allEmployees[i].render();
+  for (let i = 0; i < allEmployees.length; i++) {
+    allEmployees[i].render();
   }
 }
 
 function saveTolocal() {
-  let storedData = JSON.stringify(Employee.allEmployees);
+  let storedData = JSON.stringify(allEmployees);
   localStorage.setItem("employees", storedData);
 }
 
