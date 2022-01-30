@@ -1,79 +1,80 @@
 `use strict`;
 
-Employee.allEmployees = [];
+let EmployeE = localStorage.getItem("employees");
+let NewArray = JSON.parse(EmployeE);
 
 let mainDiv = document.getElementById("employeeTable");
 
-Employee.prototype.salary = function () {
-  if (this.level == "Senior") {
-    this.salary = parseInt(1500 + Math.random() * (2000 - 1500));
-  } else if (this.level == "Mid-Senior") {
-    this.salary = parseInt(1000 + Math.random() * (1500 - 1000));
-  } else {
-    this.salary = parseInt(500 + Math.random() * (1000 - 500));
-  }
-  this.salary = this.salary - this.salary * 0.075;
-  //console.log(this.salary);
-  return this.salary;
-};
+// Employee.prototype.salary = function () {
+//   if (this.level == "Senior") {
+//     this.salary = parseInt(1500 + Math.random() * (2000 - 1500));
+//   } else if (this.level == "Mid-Senior") {
+//     this.salary = parseInt(1000 + Math.random() * (1500 - 1000));
+//   } else {
+//     this.salary = parseInt(500 + Math.random() * (1000 - 500));
+//   }
+//   this.salary = this.salary - this.salary * 0.075;
+//   //console.log(this.salary);
+//   return this.salary;
+// };
 
-function Employee(employeeid, fullname, department, level, imageurl) {
-  this.employeeid = employeeid;
-  this.fullname = fullname;
-  this.department = department;
-  this.level = level;
-  this.imageurl = `./assets/${employeeid}.jpg`;
-  this.employeeSalary = this.salary();
-  Employee.allEmployees.push(this);
-}
+// function Employee(employeeid, fullname, department, level, imageurl) {
+//   this.employeeid = employeeid;
+//   this.fullname = fullname;
+//   this.department = department;
+//   this.level = level;
+//   this.imageurl = `./assets/${employeeid}.jpg`;
+//   this.employeeSalary = this.salary();
+//   Employee.allEmployees.push(this);
+// }
 
-let department = ["Administration", "Marketing", "Development", "Finance"];
-let level = ["Junior", "Mid-Senior", "Senior"];
+// let department = ["Administration", "Marketing", "Development", "Finance"];
+// let level = ["Junior", "Mid-Senior", "Senior"];
 
-let GhaziSamer;
-let LanaAli;
-let TamaraAyoub;
-let SafiWalid;
-let OmarZaid;
-let RanaSaleh;
-let HadiAhmad;
+// let GhaziSamer;
+// let LanaAli;
+// let TamaraAyoub;
+// let SafiWalid;
+// let OmarZaid;
+// let RanaSaleh;
+// let HadiAhmad;
 
-GhaziSamer = new Employee(1000, "Ghazi Samer", department[0], level[2]);
-LanaAli = new Employee(1001, "Lana Ali", department[3], level[2]);
-TamaraAyoub = new Employee(1002, "Tamara Ayoub", department[1], level[2]);
-SafiWalid = new Employee(1003, "Safi Walid", department[0], level[1]);
-OmarZaid = new Employee(1004, "Omar Zaid", department[2], level[2]);
-RanaSaleh = new Employee(1005, "Rana Saleh", department[2], level[0]);
-HadiAhmad = new Employee(1006, "Hadi Ahmad", department[3], level[1]);
+// GhaziSamer = new Employee(1000, "Ghazi Samer", department[0], level[2]);
+// LanaAli = new Employee(1001, "Lana Ali", department[3], level[2]);
+// TamaraAyoub = new Employee(1002, "Tamara Ayoub", department[1], level[2]);
+// SafiWalid = new Employee(1003, "Safi Walid", department[0], level[1]);
+// OmarZaid = new Employee(1004, "Omar Zaid", department[2], level[2]);
+// RanaSaleh = new Employee(1005, "Rana Saleh", department[2], level[0]);
+// HadiAhmad = new Employee(1006, "Hadi Ahmad", department[3], level[1]);
 
 let adm_employess = 0;
 let Marketing_employess = 0;
 let Development_employess = 0;
 let Finance_employess = 0;
-let totalEmployee = Employee.allEmployees.length;
+let totalEmployee = NewArray.length;
 let Asalary = 0;
 let Msalary = 0;
 let Dsalary = 0;
 let Fsalary = 0;
-for (let i = 0; i < Employee.allEmployees.length; i++) {
-  if (Employee.allEmployees[i].department == "Administration") {
+for (let i = 0; i < NewArray.length; i++) {
+  if (NewArray[i].department == "Administration") {
     adm_employess++;
-    Asalary = Math.round(Asalary + Employee.allEmployees[i].employeeSalary);
+    Asalary = Math.round(Asalary + NewArray[i].employeeSalary);
   }
 
-  if (Employee.allEmployees[i].department == "Marketing") {
+  if (NewArray[i].department == "Marketing") {
     Marketing_employess++;
-    Msalary = Math.round(Msalary + Employee.allEmployees[i].employeeSalary);
+    Msalary = Math.round(Msalary + NewArray[i].employeeSalary);
   }
 
-  if (Employee.allEmployees[i].department == "Development") {
+  if (NewArray[i].department == "Development") {
     Development_employess++;
-    Dsalary = Math.round(Dsalary + Employee.allEmployees[i].employeeSalary);
+    Dsalary = Math.round(Dsalary + NewArray[i].employeeSalary);
   }
 
-  if (Employee.allEmployees[i].department == "Finance") {
+  if (NewArray[i].department == "Finance") {
     Finance_employess++;
-    Fsalary = Math.round(Fsalary + Employee.allEmployees[i].employeeSalary);
+    Fsalary = Math.round(Fsalary + NewArray[i].employeeSalary);
   }
 }
 
